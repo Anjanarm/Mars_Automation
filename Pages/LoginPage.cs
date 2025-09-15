@@ -3,6 +3,7 @@ using OpenQA.Selenium.Support.UI;
 using Reqnroll.BoDi;
 // MUST USE with ExpectedConditions
 using SeleniumExtras.WaitHelpers;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace qa_dotnet_cucumber.Pages
 {
@@ -13,10 +14,15 @@ namespace qa_dotnet_cucumber.Pages
         public IWebDriver Driver => _driver;  
 
         // Locators
-        private readonly By UsernameField = By.Id("username");
-        private readonly By PasswordField = By.Id("password");
-        private readonly By LoginButton = By.CssSelector("button[type='submit']");
-        private readonly By SuccessMessage = By.CssSelector(".flash.success");
+        private readonly By EmailField = By.CssSelector("input[placeholder = 'Email address']");
+        private readonly By PasswordField = By.CssSelector("input[placeholder = 'Password']");
+        private readonly By LoginButton = By.XPath("//button[normalize-space()='Login']");
+        //private readonly By LoginMessage = By.CssSelector("span[class='item ui dropdown link']");
+        private readonly By SignInElement = By.XPath("//a[normalize-space()='Sign In']");
+        private readonly By PageHeading = By.TagName("h1");
+        //private readonly By VerifyEmail = By.XPath("//button[@id = 'submit-btn']");
+        // private readonly By ErrorElement = By.XPath("//div[@class='ns-box ns-growl ns-effect-jelly ns-type-error ns-show']");
+        private readonly By ErrorElement = By.XPath("//div[@class='ns-box-inner']");
 
         public LoginPage(IWebDriver driver) // Inject IWebDriver directly
         {
@@ -24,10 +30,13 @@ namespace qa_dotnet_cucumber.Pages
             _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10)); // 10-second timeout
         }
         
-        public void Login(string username, string password)
+        public void Login(string email, string password)
         {
-            var usernameElement = _wait.Until(ExpectedConditions.ElementIsVisible(UsernameField));
-            usernameElement.SendKeys(username);
+            var signinElement = _wait.Until(ExpectedConditions.ElementIsVisible(SignInElement));
+            signinElement.Click();
+
+            var emailElement = _wait.Until(ExpectedConditions.ElementIsVisible(EmailField));
+            emailElement.SendKeys(email);
 
             var passwordElement = _wait.Until(d => d.FindElement(PasswordField));
             passwordElement.SendKeys(password);
@@ -36,14 +45,22 @@ namespace qa_dotnet_cucumber.Pages
             loginButtonElement.Click();
         }
 
-        public string GetSuccessMessage()
-        {
-            return _wait.Until(d => d.FindElement(SuccessMessage)).Text;
-        }
+        
 
         public bool IsAtLoginPage()
         {
-            return _driver.Title.Contains("The Internet");
+            var pageHeadingElement = _wait.Until(ExpectedConditions.ElementIsVisible(PageHeading));
+            return pageHeadingElement.Text.Equals("Trade your skills for a new skill?", StringComparison.OrdinalIgnoreCase);
+            
         }
+        public string ErrorMessage()
+        {
+           
+            Thread.Sleep(3000);
+            var errorElement = _wait.Until(ExpectedConditions.ElementIsVisible(ErrorElement));
+           
+            return errorElement.Text;
+        }
+
     }
 }

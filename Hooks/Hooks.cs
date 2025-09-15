@@ -19,7 +19,7 @@ namespace qa_dotnet_cucumber.Hooks
         private static ExtentReports? _extent;
         private static ExtentSparkReporter? _htmlReporter;
         private static TestSettings _settings;
-        private ExtentTest? _test;
+        private ExtentTest _test;
         private static readonly object _reportLock = new object();
 
         public static TestSettings Settings => _settings;
