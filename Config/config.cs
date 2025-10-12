@@ -23,5 +23,7 @@ namespace qa_dotnet_cucumber.Config
     public class EnvironmentSettings
     {
         public string BaseUrl { get; set; }
+        public string username { get; set; }
+        public string password { get; set; }
     }
 }
