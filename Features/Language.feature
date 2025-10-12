@@ -1,35 +1,36 @@
-﻿Feature: Language
+﻿
+@Login
+Feature: Language
 
-A short summary of the feature
-
+Background: 
+	Given I am on the login page
+    And I enter "anjanarmaus@outlook.com" and "123123"
 
 Scenario: Successfully add a language
-	Given I am on the homepage
-	When I enter language and language level
+	When I enter "English" and "Fluent"
 	Then I should see the new language added
 
 Scenario: Fail adding language with empty language field
-	Given I am on the homepage
-	When I enter language level and leave language empty
+	When I enter "" and "Fluent" 
 	Then I should see enter details message
 
 Scenario: Fail adding language with empty language level field
 	Given I am on the homepage
-	When I enter language and leave language level empty
+	When I enter "Germen" and ""
 	Then I should see enter details message
 
 Scenario: Fail adding language with duplicate data
-	Given I am on the homepage
-	When I enter existing language
+	When I enter "French" and "Fluent"
+	And I enter "French" and "Basic"
 	Then I should see duplicate data message
 
 Scenario: Edit an existing language
-	Given I am on the homepage
-	When I enter new details
+	When I enter "Hindi" and "Conversational"
+	And I enter new details
 	Then I should see the updated data
 
 Scenario: Delete an existing language
-	Given I am on the homepage
-	When I delete a language data
+	When I enter "Spanish" and "Basic"
+	And I delete added language data
 	Then I should see the language field removed
 

@@ -28,51 +28,30 @@ namespace qa_dotnet_cucumber.Steps
             _navigationHelper.NavigateTo("");
             Assert.That(_loginPage.IsAtLoginPage(), Is.True, "Should be on the login page"); 
         }
-
-        [When("I enter valid credentials")]
-        public void WhenIEnterValidCredentials()
+        [Given("I enter {string} and {string}")]
+        public void GivenIEnterAnd(string email, string password)
         {
-            _loginPage.Login("anjanarmaus@outlook.com", "123123");
+            _loginPage.Login(email, password);
         }
 
-        [When("I enter an invalid username and valid password")]
-        public void WhenIEnterAnInvalidUsernameAndValidPassword()
-        {
-            _loginPage.Login("invaliduser", "123123");
-        }
 
-        [When("I enter a valid username and invalid password")]
-        public void WhenIEnterAValidUsernameAndInvalidPassword()
-        {
-            _loginPage.Login("anjanarmaus@outlook.com", "wrongpassword");
-        }
 
-        [When("I enter empty credentials")]
-        public void WhenIEnterEmptyCredentials()
-        {
-            _loginPage.Login("","");
-        }
 
-        [Then("I should see the secure area")]
-        public void ThenIShouldSeeTheSecureArea()
+        [Then("I should see an {string}")]
+        public void ThenIShouldSeeAn(string outcome)
         {
-            string successMessage = _homePage.GetSuccessMessage();
-            Assert.That(successMessage, Is.EqualTo("Sign Out"));
+            if (outcome == "secure area")
+            {
+                string successMessage = _homePage.GetSuccessMessage();
+                Assert.That(successMessage, Is.EqualTo("Sign Out"));
+            }
+            else if (outcome == "error message")
+            {
+                var error = _loginPage.ErrorMessage();
+                Assert.That(error, Is.EqualTo("Confirm your email"));
+            }
         }
+        
 
-        [Then("I should see an error message")]
-        public void ThenIShouldSeeAnErrorMessage()
-        {
-            // Use LoginPage's driver to wait for and verify the error message
-            //var wait = new WebDriverWait(_loginPage.Driver, TimeSpan.FromSeconds(20));
-
-            //Assert.That(_loginPage.ErrorMessage(), Is.True, "Email confirmation displayed");
-            var error = _loginPage.ErrorMessage();
-            Assert.That(error, Is.EqualTo("Confirm your email"));
-            //var errorMessageElement = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.CssSelector(".flash.error")));
-            // var errorMessage = errorMessageElement.Text;
-            // Assert.That(errorMessage, Does.Match("Confirm your email"),
-            //     "Should see an appropriate error message");
-        }
     }
 }

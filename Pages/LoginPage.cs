@@ -20,8 +20,6 @@ namespace qa_dotnet_cucumber.Pages
         //private readonly By LoginMessage = By.CssSelector("span[class='item ui dropdown link']");
         private readonly By SignInElement = By.XPath("//a[normalize-space()='Sign In']");
         private readonly By PageHeading = By.TagName("h1");
-        //private readonly By VerifyEmail = By.XPath("//button[@id = 'submit-btn']");
-        // private readonly By ErrorElement = By.XPath("//div[@class='ns-box ns-growl ns-effect-jelly ns-type-error ns-show']");
         private readonly By ErrorElement = By.XPath("//div[@class='ns-box-inner']");
 
         public LoginPage(IWebDriver driver) // Inject IWebDriver directly
