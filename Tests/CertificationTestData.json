@@ -1,0 +1,67 @@
+﻿{
+  "ValidCertification": [
+    {
+      "Certification": "ISTQB Foundation",
+      "From": "ISTQB",
+      "Year": "2025"
+    },
+    {
+      "Certification": "CCNA",
+      "From": "Cisco",
+      "Year": "2024"
+    },
+    {
+      "Certification": "AZ400",
+      "From": "Microsoft",
+      "Year": "2024"
+    }
+  ],
+
+  "InvalidCertification": [
+    {
+      "Certification": "",
+      "From": "Microsoft",
+      "Year": "2024"
+    },
+   /* {
+      "Certification": "jwfkegrlgdvsfbvfsbvfwgklrkglkrlewkgk",
+      "From": "Microsoft",
+      "Year": "2024"
+    }*/
+  ],
+
+  "DuplicateData": [
+    {
+      "Certification": "CCNP",
+      "From": "Cisco",
+      "Year": "2025"
+    },
+    {
+      "Certification": "CCNP",
+      "From": "Cisco",
+      "Year": "2025"
+    }
+  ],
+  "EditData": [
+    {
+      "Original": {
+        "Certification": "CCNA",
+        "From": "Juniper",
+        "Year": "2025"
+      },
+      "Updated": {
+        "Certification": "CCNA",
+        "From": "Cisco",
+        "Year": "2025"
+      }
+    }
+  ],
+
+  "DeleteCertification": [
+    {
+      "Certification": "CCNA",
+      "From": "Cisco",
+      "Year": "2025"
+    }
+  ]
+}

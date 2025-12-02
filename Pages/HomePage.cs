@@ -1,10 +1,13 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.BiDi.Log;
 using OpenQA.Selenium.DevTools.V137.Network;
 using OpenQA.Selenium.Support.UI;
+using qa_dotnet_cucumber.Tests;
 using SeleniumExtras.WaitHelpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,6 +41,27 @@ namespace qa_dotnet_cucumber.Pages
         private readonly By Rows = By.XPath("//tbody/tr");
         private readonly By EntireFirstRow = By.XPath("//table[@class='ui fixed table']//tbody/tr[1]");
         private readonly By DeleteRow = By.XPath("//td[@class='right aligned']//i[@class='remove icon']");
+        private readonly By EducationTab = By.XPath("//a[normalize-space()='Education']");
+        private readonly By AddNewEducation = By.XPath("//div[@data-tab='third']//div[contains(@class,'ui teal button')][normalize-space()='Add New']");
+        private readonly By UniversityElement = By.XPath("//input[@placeholder='College/University Name']");
+        private readonly By CountryElement = By.XPath("//select[@name='country']");
+        private readonly By TitleElement = By.XPath("//select[@name='title']");
+        private readonly By DegreeElement = By.XPath("//input[@placeholder='Degree']");
+        private readonly By YearElement = By.XPath("//select[@name='yearOfGraduation']");
+        private readonly By EducationRows = By.XPath("//div[@class='ui bottom attached tab segment tooltip-target active']//table[@class='ui fixed table']//tr");
+        private readonly By EditEducationElement = By.XPath("//div[@data-tab='third']//td[@class='right aligned']//i[@class='outline write icon']");
+        private readonly By UpdateEducationElement = By.XPath("//div[@data-tab='third']//input[@value='Update']");
+        private readonly By DeleteEducationElement = By.XPath("//div[@data-tab='third']//td[@class='right aligned']//i[@class='remove icon']");
+        private readonly By EducationPopUp = By.XPath("//div[@class='ns-box-inner']");
+        private readonly By CertificationTab = By.XPath("//a[normalize-space()='Certifications']");
+        private readonly By AddNewCertification = By.XPath("//div[@data-tab='fourth']//div[contains(@class,'ui teal button')][normalize-space()='Add New']");
+        private readonly By CertificationElement = By.XPath("//input[@placeholder='Certificate or Award']");
+        private readonly By IssuedFrom = By.XPath("//input[@placeholder='Certified From (e.g. Adobe)']");
+        private readonly By IssueYear = By.XPath("//select[@name='certificationYear']");
+        private readonly By CertificationPopUp = By.XPath("//div[@class='ns-box-inner']");
+        private readonly By EditCertificationElement = By.XPath("//div[@data-tab='fourth']//td[@class='right aligned']//i[@class='outline write icon']");
+        private readonly By UpdateCertificationElement = By.XPath("//div[@data-tab='fourth']//input[@value='Update']");
+        private readonly By DeleteCertificationElement = By.XPath("//div[@data-tab='fourth']//td[@class='right aligned']//i[@class='remove icon']");
         public HomePage(IWebDriver driver) // Inject IWebDriver directly
         {
             _driver = driver;
@@ -188,6 +212,156 @@ namespace qa_dotnet_cucumber.Pages
                 Console.WriteLine($"[Cleanup] Failed to delete rows: {ex.Message}");
             }
         }
+        public void AddEducation(string university, string country, string title, string degree, string year)
+        {
+            var educationSelect = _wait.Until(d => d.FindElement(EducationTab));
+            educationSelect.Click();
+            var addNewElement = _wait.Until(ExpectedConditions.ElementIsVisible(AddNewEducation));
+            addNewElement.Click();
+            var universityField = _wait.Until(ExpectedConditions.ElementIsVisible(UniversityElement));
+            universityField.Clear();
+            universityField.SendKeys(university);
+            var countryField = _wait.Until(ExpectedConditions.ElementToBeClickable(CountryElement));
+            countryField.Click();
+            countryField.SendKeys(country);
+            var titleField = _wait.Until(ExpectedConditions.ElementToBeClickable(TitleElement));
+            titleField.Click();
+            titleField.SendKeys(title);
+            var degreeField = _wait.Until(ExpectedConditions.ElementIsVisible(DegreeElement));
+            degreeField.Clear();
+            degreeField.SendKeys(degree);
+            var yearField = _wait.Until(ExpectedConditions.ElementToBeClickable(YearElement));
+            yearField.Click();
+            yearField.SendKeys(year);
+            var addElement = _wait.Until(d => d.FindElement(AddOption));
+            addElement.Click();
+            //_driver.Navigate().Refresh();
+            Thread.Sleep(3000);
+        }
+        public bool VerifyEducatucationDetails(string university, string country, string title, string degree, string year)
+        {
+            var rows = _wait.Until(d => d.FindElements(EducationRows)); 
+            foreach (var row in rows)
+            {
+                if (row.Text.Contains(university) &&
+                    row.Text.Contains(country) &&
+                    row.Text.Contains(title) &&
+                    row.Text.Contains(degree) &&
+                    row.Text.Contains(year))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public void EditEducation(string university)
+        {
+            var editEducationField = _wait.Until(ExpectedConditions.ElementToBeClickable(EditEducationElement));
+            editEducationField.Click();
+            var universityField = _wait.Until(ExpectedConditions.ElementToBeClickable(UniversityElement));
+            universityField.Clear();
+            universityField.SendKeys(university);
+            var updateEducationField = _wait.Until(ExpectedConditions.ElementIsVisible(UpdateEducationElement));
+            updateEducationField.Click();
+            Thread.Sleep(3000);
+        }
+        public string EducationDataIncomplete()
+        {
+            var educationFlashMessage = _wait.Until(ExpectedConditions.ElementIsVisible(EducationPopUp));
+            return educationFlashMessage.Text;
+        }
+        public string VerifyUpdatedEducation()
+        {
+            Thread.Sleep(3000);
+            var university = _wait.Until(d => d.FindElement(UniversityElement));
+            //SelectElement select = new SelectElement(title);
+            Console.WriteLine(university);
+            return university.Text;
+        }
+        public void DeleteEducation()
+        {
+            var deleteEducationField = _wait.Until(ExpectedConditions.ElementToBeClickable(DeleteEducationElement));
+            deleteEducationField.Click();
+        }
+        public string DeleteEducationMessage()
+        {
+            Thread.Sleep(3000);
+            var deleteFlashMessage = _wait.Until(ExpectedConditions.ElementIsVisible(EducationPopUp));
+            return deleteFlashMessage.Text;
+        }
+        public void AddCertification(CertificationData cert)
+        {
+            var certificationSelect = _wait.Until(d => d.FindElement(CertificationTab));
+            certificationSelect.Click();
+            var addNewElement = _wait.Until(ExpectedConditions.ElementIsVisible(AddNewCertification));
+            addNewElement.Click();
+            var CertificationField = _wait.Until(ExpectedConditions.ElementIsVisible(CertificationElement));
+            CertificationField.SendKeys(cert.Certification);
+            var certificationFrom = _wait.Until(ExpectedConditions.ElementToBeClickable(IssuedFrom));
+            certificationFrom.SendKeys(cert.From);
+            var certificationYear = _wait.Until(ExpectedConditions.ElementToBeClickable(IssueYear));
+            certificationYear.Click();
+            certificationYear.SendKeys(cert.Year);
+            var addElement = _wait.Until(d => d.FindElement(AddOption));
+            addElement.Click();
+            //_driver.Navigate().Refresh();
+            Thread.Sleep(3000);
 
+        }
+        public void EditCertification(CertificationData cert)
+        {
+            var editCertificationField = _wait.Until(ExpectedConditions.ElementToBeClickable(EditCertificationElement));
+            editCertificationField.Click();
+            var CertificationField = _wait.Until(ExpectedConditions.ElementIsVisible(CertificationElement));
+            CertificationField.Clear();
+            CertificationField.SendKeys(cert.Certification);
+            var certificationFrom = _wait.Until(ExpectedConditions.ElementToBeClickable(IssuedFrom));
+            certificationFrom.Clear();
+            certificationFrom.SendKeys(cert.From);
+            var certificationYear = _wait.Until(ExpectedConditions.ElementToBeClickable(IssueYear));
+            certificationYear.Click();
+            certificationYear.SendKeys(cert.Year);
+            var updateCertificationField = _wait.Until(ExpectedConditions.ElementIsVisible(UpdateCertificationElement));
+            updateCertificationField.Click();
+            //_driver.Navigate().Refresh();
+            Thread.Sleep(3000);
+
+        }
+        public bool CertificateExists(CertificationData cert)
+        {
+            var rows = _wait.Until(d => d.FindElements(EducationRows));
+            foreach (var row in rows)
+            {
+                if (row.Text.Contains(cert.Certification) &&
+                    row.Text.Contains(cert.From) &&
+                    row.Text.Contains(cert.Year))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public string CertificationDataIncomplete()
+        {
+            var certificationFlashMessage = _wait.Until(ExpectedConditions.ElementIsVisible(CertificationPopUp));
+            return certificationFlashMessage.Text;
+        }
+
+        public string UpdatedCertification()
+        {
+            var certificationFlashMessage = _wait.Until(ExpectedConditions.ElementIsVisible(CertificationPopUp));
+            return certificationFlashMessage.Text;
+        }
+        public void DeleteCertification()
+        {
+            var deleteCertificationField = _wait.Until(ExpectedConditions.ElementToBeClickable(DeleteCertificationElement));
+            deleteCertificationField.Click();
+        }
+        public string DeleteCertificationMessage()
+        {
+            Thread.Sleep(3000);
+            var deleteFlashMessage = _wait.Until(ExpectedConditions.ElementIsVisible(CertificationPopUp));
+            return deleteFlashMessage.Text;
+        }
     }
 }
