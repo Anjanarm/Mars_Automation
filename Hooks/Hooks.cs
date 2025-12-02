@@ -125,10 +125,6 @@ namespace qa_dotnet_cucumber.Hooks
             {
                 _scenario.Log(Status.Fail,
                     $"{stepType}: {stepText}<br>Error: {scenarioContext.TestError.Message}");
-
-                // Optionally add screenshot
-               // string screenshotPath = ITakeScreenshot(stepType);
-                //Hooks._scenario.AddScreenCaptureFromPath(screenshotPath);
             }
         }
 
