@@ -23,7 +23,7 @@ namespace qa_dotnet_cucumber.Hooks
         private static readonly object _reportLock = new object();
         private static ExtentReports _extent;
         private static ExtentSparkReporter _htmlReporter;
-        private ExtentTest _test;
+        //private ExtentTest _test;
         public static ExtentTest _scenario;
 
         public Hooks(IObjectContainer objectContainer)

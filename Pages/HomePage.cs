@@ -55,6 +55,7 @@ namespace qa_dotnet_cucumber.Pages
         private readonly By EducationPopUp = By.XPath("//div[@class='ns-box-inner']");
         private readonly By CertificationTab = By.XPath("//a[normalize-space()='Certifications']");
         private readonly By AddNewCertification = By.XPath("//div[@data-tab='fourth']//div[contains(@class,'ui teal button')][normalize-space()='Add New']");
+        private readonly By CertificationRows = By.XPath("//div[@class='ui bottom attached tab segment tooltip-target active']//table[@class='ui fixed table']//tr");
         private readonly By CertificationElement = By.XPath("//input[@placeholder='Certificate or Award']");
         private readonly By IssuedFrom = By.XPath("//input[@placeholder='Certified From (e.g. Adobe)']");
         private readonly By IssueYear = By.XPath("//select[@name='certificationYear']");
@@ -329,7 +330,7 @@ namespace qa_dotnet_cucumber.Pages
         }
         public bool CertificateExists(CertificationData cert)
         {
-            var rows = _wait.Until(d => d.FindElements(EducationRows));
+            var rows = _wait.Until(d => d.FindElements(CertificationRows));
             foreach (var row in rows)
             {
                 if (row.Text.Contains(cert.Certification) &&
@@ -363,5 +364,78 @@ namespace qa_dotnet_cucumber.Pages
             var deleteFlashMessage = _wait.Until(ExpectedConditions.ElementIsVisible(CertificationPopUp));
             return deleteFlashMessage.Text;
         }
+        public void AddEducation(EducationData edu)
+        {
+            var educationSelect = _wait.Until(d => d.FindElement(EducationTab));
+            educationSelect.Click();
+            var addNewElement = _wait.Until(ExpectedConditions.ElementIsVisible(AddNewEducation));
+            addNewElement.Click();
+            var universityField = _wait.Until(ExpectedConditions.ElementIsVisible(UniversityElement));
+            universityField.Clear();
+            universityField.SendKeys(edu.University);
+            var countryField = _wait.Until(ExpectedConditions.ElementToBeClickable(CountryElement));
+            countryField.Click();
+            countryField.SendKeys(edu.Country);
+            var titleField = _wait.Until(ExpectedConditions.ElementToBeClickable(TitleElement));
+            titleField.Click();
+            titleField.SendKeys(edu.Title);
+            var degreeField = _wait.Until(ExpectedConditions.ElementIsVisible(DegreeElement));
+            degreeField.Clear();
+            degreeField.SendKeys(edu.Degree);
+            var yearField = _wait.Until(ExpectedConditions.ElementToBeClickable(YearElement));
+            yearField.Click();
+            yearField.SendKeys(edu.Year);
+            var addElement = _wait.Until(d => d.FindElement(AddOption));
+            addElement.Click();
+            //_driver.Navigate().Refresh();
+            Thread.Sleep(3000);
+        }
+        public bool EducationExists(EducationData edu)
+        {
+            var rows = _wait.Until(d => d.FindElements(EducationRows));
+            foreach (var row in rows)
+            {
+                if (row.Text.Contains(edu.University) &&
+                    row.Text.Contains(edu.Country) &&
+                    row.Text.Contains(edu.Title) &&
+                    row.Text.Contains(edu.Degree) &&
+                    row.Text.Contains(edu.Year))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public void EditEducation(EducationData edu)
+        {
+            var editEducationField = _wait.Until(ExpectedConditions.ElementToBeClickable(EditEducationElement));
+            editEducationField.Click();
+            var universityField = _wait.Until(ExpectedConditions.ElementIsVisible(UniversityElement));
+            universityField.Clear();
+            universityField.SendKeys(edu.University);
+            var countryField = _wait.Until(ExpectedConditions.ElementToBeClickable(CountryElement));
+            countryField.Click();
+            countryField.SendKeys(edu.Country);
+            var titleField = _wait.Until(ExpectedConditions.ElementToBeClickable(TitleElement));
+            titleField.Click();
+            titleField.SendKeys(edu.Title);
+            var degreeField = _wait.Until(ExpectedConditions.ElementIsVisible(DegreeElement));
+            degreeField.Clear();
+            degreeField.SendKeys(edu.Degree);
+            var yearField = _wait.Until(ExpectedConditions.ElementToBeClickable(YearElement));
+            yearField.Click();
+            yearField.SendKeys(edu.Year);
+            var addElement = _wait.Until(d => d.FindElement(AddOption));
+            addElement.Click();
+            //_driver.Navigate().Refresh();
+            Thread.Sleep(3000);
+
+        }
+        public string UpdatedEducation()
+        {
+            var educationFlashMessage = _wait.Until(ExpectedConditions.ElementIsVisible(EducationPopUp));
+            return educationFlashMessage.Text;
+        }
+
     }
 }
