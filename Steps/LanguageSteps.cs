@@ -48,7 +48,6 @@ namespace qa_dotnet_cucumber.Steps
         {
             _homePage.EditLanguage();
         }
-        [When("I delete a language data")]
         
         [When("I delete added language data")]
         public void WhenIDeleteAddedLanguageData()
@@ -87,8 +86,8 @@ namespace qa_dotnet_cucumber.Steps
         {
             string DeletedLanguageMessage = _homePage.DeleteLanguageMessage();
             Assert.That(DeletedLanguageMessage.ToLower(), Does.Contain("deleted"));
-
         }
     }
 
 }
+

@@ -1,0 +1,81 @@
+﻿{
+  "ValidEducation": [
+    {
+      "University": "UNSW",
+      "Country": "Australia",
+      "Title": "PHD",
+      "Degree": "Post Graduate",
+      "Year": "2025"
+    },
+    {
+      "University": "UTS",
+      "Country": "Australia",
+      "Title": "Masters",
+      "Degree": "Post Graduate",
+      "Year": "2020"
+    },
+    {
+      "University": "University of Queensland",
+      "Country": "Australia",
+      "Title": "Bachelors",
+      "Degree": "Graduate",
+      "Year": "2017"
+    }
+  ],
+
+  "InvalidCertification": [
+    {
+      "University": "University of Queensland",
+      "Country": "Australia",
+      "Title": " ",
+      "Degree": "Graduate",
+      "Year": "2017"
+    }
+  ],
+
+  "DuplicateData": [
+    {
+      "University": "University of Texas",
+      "Country": "USA",
+      "Title": "PHD",
+      "Degree": "Post Graduate",
+      "Year": "2025"
+    },
+    {
+      "University": "University of Texas",
+      "Country": "USA",
+      "Title": "PHD",
+      "Degree": "Post Graduate",
+      "Year": "2025"
+    }
+  ],
+  "EditData": [
+    {
+      "Original": {
+        "University": "UCLA",
+        "Country": "USA",
+        "Title": "PHD",
+        "Degree": "Post Graduate",
+        "Year": "2025"
+      },
+
+      "Updated": {
+        "University": "University of Texas",
+        "Country": "USA",
+        "Title": "PHD",
+        "Degree": "Post Graduate",
+        "Year": "2025"
+      }
+    }
+  ],
+  "DeleteEducation": [
+    {
+      "University": "University of Texas",
+      "Country": "USA",
+      "Title": "PHD",
+      "Degree": "Post Graduate",
+      "Year": "2025"
+    }
+  ]
+}
+
