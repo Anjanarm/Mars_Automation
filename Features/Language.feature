@@ -4,7 +4,7 @@ Feature: Language
 
 Background: 
 	Given I am on the login page
-    And I enter "anjanarmaus@outlook.com" and "123123"
+    And I enter "ajvmvp@gmail.com" and "4335123"
 
 Scenario: Successfully add a language
 	When I enter "English" and "Fluent"
