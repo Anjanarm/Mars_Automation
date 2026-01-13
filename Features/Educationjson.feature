@@ -4,7 +4,7 @@ A short summary of the feature
 
 Background: 
 	Given I am on the login page
-    And I enter "anjanarmaus@outlook.com" and "123123"
+    And I enter "ajvmvp@gmail.com" and "123123"
 
 Scenario: Successfully add an Education
 	Given I load all Education details from "EducationTestData.json" for "ValidEducation"

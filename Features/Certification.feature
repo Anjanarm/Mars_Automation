@@ -5,7 +5,7 @@ A short summary of the feature
 
 Background: 
 	Given I am on the login page
-    And I enter "anjanarmaus@outlook.com" and "123123"
+    And I enter "ajvmvp@gmail.com" and "4335123"
 
 Scenario: Successfully add a Certification
 	Given I load all certification details from "CertificationTestData.json" for "ValidCertification"
